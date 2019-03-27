@@ -66,7 +66,7 @@ def set_breakup(uri):
     j = request.json
     df = pd.read_json(json.dumps(j),  orient = 'records')
     df.to_csv(path, index = False)
-    return j, 201
+    return json.dumps(j), 201
 
 @app.route("/legend/<path:uri>", methods = ['POST'])
 def set_legend(uri):
@@ -74,23 +74,23 @@ def set_legend(uri):
     j = request.json
     df = pd.read_json(json.dumps(j),  orient = 'records')
     df.to_csv(path, index = False)
-    return j, 201
+    return json.dumps(j), 201
 
 @app.route("/paperConfig/<path:uri>", methods = ['POST'])
 def set_paperConfig(uri):
     path = './data/' + uri + '/paperConfig.csv'
     j = request.json
-    df = pd.read_json(jsonify(json.dumps(j)),  orient = 'records')
+    df = pd.read_json(json.dumps(j),  orient = 'records')
     df.to_csv(path, index = False)
-    return j, 201
+    return json.dumps(j), 201
 
 @app.route("/qBank/<path:uri>", methods = ['POST'])
 def set_qBank(uri):
     path = './data/' + uri + '/qBank.csv'
     j = request.json
-    df = pd.read_json(jsonify(json.dumps(j)),  orient = 'records')
+    df = pd.read_json(json.dumps(j),  orient = 'records')
     df.to_csv(path, index = False)
-    return j, 201
+    return json.dumps(j), 201
 
 
 
