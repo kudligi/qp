@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import json
 from get_csv import *
 import os
 import commands
@@ -63,7 +64,7 @@ def get_plist(course,department):
 def set_breakup(uri):
     path = './data/' + uri + '/breakup.csv'
     j = request.json
-    df = pd.read_json(jsonify(j),  orient = 'records')
+    df = pd.read_json(json.dumps(j),  orient = 'records')
     df.to_csv(path, index = False)
     return j, 201
 
@@ -71,7 +72,7 @@ def set_breakup(uri):
 def set_legend(uri):
     path = './data/' + uri + '/legend.csv'
     j = request.json
-    df = pd.read_json(jsonify(j),  orient = 'records')
+    df = pd.read_json(json.dumps(j),  orient = 'records')
     df.to_csv(path, index = False)
     return j, 201
 
@@ -79,7 +80,7 @@ def set_legend(uri):
 def set_paperConfig(uri):
     path = './data/' + uri + '/paperConfig.csv'
     j = request.json
-    df = pd.read_json(jsonify(j),  orient = 'records')
+    df = pd.read_json(jsonify(json.dumps(j)),  orient = 'records')
     df.to_csv(path, index = False)
     return j, 201
 
@@ -87,7 +88,7 @@ def set_paperConfig(uri):
 def set_qBank(uri):
     path = './data/' + uri + '/qBank.csv'
     j = request.json
-    df = pd.read_json(jsonify(j),  orient = 'records')
+    df = pd.read_json(jsonify(json.dumps(j)),  orient = 'records')
     df.to_csv(path, index = False)
     return j, 201
 
