@@ -25,7 +25,7 @@ def get_paperConfig(course, department, paper):
     return df, 201
 
 def get_qBank(course, department, paper):
-    exists = os.path.isfile('./data/' + course + '/' + department + '/' + paper + '/' + 'get_qBank.csv')
+    exists = os.path.isfile('./data/' + course + '/' + department + '/' + paper + '/' + 'qBank.csv')
     if not exists:
         return "not found", 404
     df = pd.read_csv('./data/' + course + '/' + department + '/' + paper + '/' + 'qBank.csv', encoding = 'cp1252')
