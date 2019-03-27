@@ -34,6 +34,9 @@ def get_qBank(course, department, paper):
 def df_to_json(df):
     return df.to_json(orient = 'records')
 
+def json_to_df(j):
+    return pd.read_json(j, orient='records')
+
 #print(get_breakup('UG', 'ent' , '117').head())
 #print(get_legend('UG', 'ent' , '117').head())
 #print(get_paperConfig('UG', 'ent' , '117').head())

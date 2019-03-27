@@ -59,7 +59,11 @@ def get_plist(course,department):
 
 
 
-
+@app.route("/breakup/<path:uri>", methods = ['POST'])
+def set_breakup(uri):
+    path = './data/' + uri + '/breakup.csv'
+    j = request.json
+    return jsonify([j, path])
 
 
 
