@@ -3,31 +3,32 @@ import json
 import os
 
 def get_breakup(course, department, paper):
-    exists = os.path.isfile('../data/' + course + '/' + department + '/' + paper + '/' + 'breakup.csv')
+    exists = os.path.isfile('./data/' + course + '/' + department + '/' + paper + '/' + 'breakup.csv')
     if not exists:
         return "not found", 404
-    df = pd.read_csv('../data/' + course + '/' + department + '/' + paper + '/' + 'breakup.csv', encoding = 'cp1252')
+    df = pd.read_csv('./data/' + course + '/' + department + '/' + paper + '/' + 'breakup.csv', encoding = 'cp1252')
     return df, 201
 
 def get_legend(course, department, paper):
-    exists = os.path.isfile('../data/' + course + '/' + department + '/' + paper + '/' + 'legend.csv')
+    exists = os.path.isfile('./data/' + course + '/' + department + '/' + paper + '/' + 'legend.csv')
     if not exists:
+        print ("this file does not exist ", exists, ' ', './data/' + course + '/' + department + '/' + paper + '/' + 'legend.csv')
         return "not found", 404
-    df = pd.read_csv('../data/' + course + '/' + department + '/' + paper + '/' + 'legend.csv', encoding = 'cp1252')
+    df = pd.read_csv('./data/' + course + '/' + department + '/' + paper + '/' + 'legend.csv', encoding = 'cp1252')
     return df, 201
 
 def get_paperConfig(course, department, paper):
-    exists = os.path.isfile('../data/' + course + '/' + department + '/' + paper + '/' + 'paperConfig.csv')
+    exists = os.path.isfile('./data/' + course + '/' + department + '/' + paper + '/' + 'paperConfig.csv')
     if not exists:
         return "not found", 404
-    df = pd.read_csv('../data/' + course + '/' + department + '/' + paper + '/' + 'paperConfig.csv', encoding = 'cp1252')
+    df = pd.read_csv('./data/' + course + '/' + department + '/' + paper + '/' + 'paperConfig.csv', encoding = 'cp1252')
     return df, 201
 
 def get_qBank(course, department, paper):
-    exists = os.path.isfile('../data/' + course + '/' + department + '/' + paper + '/' + 'get_qBank.csv')
+    exists = os.path.isfile('./data/' + course + '/' + department + '/' + paper + '/' + 'get_qBank.csv')
     if not exists:
         return "not found", 404
-    df = pd.read_csv('../data/' + course + '/' + department + '/' + paper + '/' + 'qBank.csv', encoding = 'cp1252')
+    df = pd.read_csv('./data/' + course + '/' + department + '/' + paper + '/' + 'qBank.csv', encoding = 'cp1252')
     return df, 201
 
 def df_to_json(df):

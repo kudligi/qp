@@ -1,19 +1,24 @@
-# Use an official Python runtime as a parent image
-FROM python:3.6
+FROM ubuntu:16.04
 
-# Set the working directory to /app
+RUN apt-get update
+
+RUN apt-get install -y python  && \
+    apt-get install -y python-pip  && \
+    pip install Flask  && \
+    pip install pandas  && \
+    apt-get install -y curl  
+
 WORKDIR /app
 
 # Copy the current directory contents into the container at /app
 COPY . /app
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --trusted-host pypi.python.org -r requirements.txt
+#RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 # Define environment variable
-ENV NAME World
+ENV FLASK_APP /app/source/app.py
 
 EXPOSE 5000
 
-# Run app.py when the container launches
-CMD ["python", "./source/app.py"]
+CMD flask run --host=0.0.0.0
