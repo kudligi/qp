@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from get_csv import *
 import os
 import commands
+from metadata import *
 
 app = Flask(__name__)
 
@@ -37,7 +38,52 @@ def fetch_qBank(uri):
     if response_code == 404:
         return 'no such file', 404
     return df_to_json(df), 201
-    
+
+
+
+@app.route("/metadata/get_course_list", methods = ['GET'])
+def get_clist():
+    return jsonify(get_course_list())
+
+
+
+@app.route("/metadata/get_departments_list/<string:course>", methods = ['GET'])
+def get_dlist(course):
+    return jsonify(get_departments_list(course))
+
+
+
+@app.route("/metadata/get_departments_list/<string:course>/<string:department>", methods = ['GET'])
+def get_plist(course,department):
+    return jsonify(get_papers_list(course,department))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
 
 @app.route("/ls1", methods = ['GET'])
 def show():
@@ -61,6 +107,8 @@ def show3():
 def show4():
     a = commands.getoutput('ls ./data/')
     return a
+
+'''
 
 if __name__ == '__main__':
     print(os.system('ls ../'))

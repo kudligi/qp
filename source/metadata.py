@@ -4,14 +4,14 @@ import os
 #print(courses)
 
 def get_course_list():
-    courses = os.listdir('../data')
+    courses = os.listdir('./data')
     return courses
 
 def get_departments_list(course):
     courses = get_course_list()
     if course not in courses:
         return "Invalid course input"
-    departments = os.listdir('../data/' + course)
+    departments = os.listdir('./data/' + course)
     return departments
 
 def get_papers_list(course, department):
@@ -21,7 +21,7 @@ def get_papers_list(course, department):
     if department not in departments:
         return "Invalid department input"
 
-    papar_list = os.listdir('../data/' + course + '/' + department)
+    papar_list = os.listdir('./data/' + course + '/' + department)
     return papar_list
 
 
