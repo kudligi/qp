@@ -41,19 +41,19 @@ def fetch_qBank(uri):
 
 
 
-@app.route("/metadata/get_course_list", methods = ['GET'])
+@app.route("/metadata/course_list", methods = ['GET'])
 def get_clist():
     return jsonify(get_course_list())
 
 
 
-@app.route("/metadata/get_departments_list/<string:course>", methods = ['GET'])
+@app.route("/metadata/departments_list/<string:course>", methods = ['GET'])
 def get_dlist(course):
     return jsonify(get_departments_list(course))
 
 
 
-@app.route("/metadata/get_departments_list/<string:course>/<string:department>", methods = ['GET'])
+@app.route("/metadata/papers_list/<string:course>/<string:department>", methods = ['GET'])
 def get_plist(course,department):
     return jsonify(get_papers_list(course,department))
 
