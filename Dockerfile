@@ -13,5 +13,7 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 # Define environment variable
 ENV NAME World
 
+EXPOSE 5000
+
 # Run app.py when the container launches
-CMD ["python", "./source/get_csv.py"]
+CMD ["python", "./source/app.py"]
