@@ -5,7 +5,7 @@ class App extends React.Component {
   render() {
     return (
         <div className="App">
-          <Layout />
+          <Layout deps={["Department 1", "Department 2"]} title={"Question Paper Generator"}/>
         </div>
     );
   }
