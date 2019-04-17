@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import DropDown from './Dropdown';
+import DataTable from './Table';
 
 const drawerWidth = 240;
 
@@ -47,6 +48,16 @@ class Layout extends React.Component {
     }
 
     render() {
+        let rows = [
+            {id: 0, name: "Cupcake", calories: 305, fat: 3.7},
+            {id: 1, name: "Cupcake", calories: 305, fat: 3.7},
+            {id: 2, name: "Cupcake", calories: 305, fat: 3.7},
+            {id: 3, name: "Cupcake", calories: 305, fat: 3.7},
+            {id: 4, name: "Cupcake", calories: 305, fat: 3.7},
+            {id: 5, name: "Cupcake", calories: 305, fat: 3.7},
+            {id: 6, name: "Cupcake", calories: 305, fat: 3.7},
+            {id: 7, name: "Cupcake", calories: 305, fat: 3.7},
+        ];
         const { classes } = this.props;
 
         return (
@@ -69,7 +80,7 @@ class Layout extends React.Component {
               </Drawer>
               <main className={classes.content}>
                 <div className={classes.toolbar} />
-                {this.state.selected && <Typography variant="body1">{this.state.table}</Typography>}
+                <DataTable rows={rows} />
               </main>
             </div>
         );
