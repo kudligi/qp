@@ -35,14 +35,15 @@ class Layout extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selected: "",
+            table: "",
+            selected: false,
         };
 
         this.handleSelect = this.handleSelect.bind(this);
     }
 
     handleSelect(select) {
-        this.setState(state => ({selected: select}));
+        this.setState(state => ({table: select, selected: true}));
     }
 
     render() {
@@ -68,6 +69,7 @@ class Layout extends React.Component {
               </Drawer>
               <main className={classes.content}>
                 <div className={classes.toolbar} />
+                {this.state.selected && <Typography variant="body1">{this.state.table}</Typography>}
               </main>
             </div>
         );
