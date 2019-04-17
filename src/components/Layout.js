@@ -50,13 +50,13 @@ class Layout extends React.Component {
     render() {
         let rows = [
             {id: 0, name: "Cupcake", calories: 305, fat: 3.7},
-            {id: 1, name: "Cupcake", calories: 305, fat: 3.7},
-            {id: 2, name: "Cupcake", calories: 305, fat: 3.7},
-            {id: 3, name: "Cupcake", calories: 305, fat: 3.7},
-            {id: 4, name: "Cupcake", calories: 305, fat: 3.7},
-            {id: 5, name: "Cupcake", calories: 305, fat: 3.7},
-            {id: 6, name: "Cupcake", calories: 305, fat: 3.7},
-            {id: 7, name: "Cupcake", calories: 305, fat: 3.7},
+            {id: 1, name: "Donut", calories: 452, fat: 25.0},
+            {id: 2, name: "Eclair", calories: 262, fat: 16.0},
+            {id: 3, name: "Frozen yoghurt", calories: 159, fat: 6.0},
+            {id: 4, name: "Gingerbread", calories: 356, fat: 16.0},
+            {id: 5, name: "Honeycombe", calories: 408, fat: 3.2},
+            {id: 6, name: "KitKat", calories: 518, fat: 26.0},
+            {id: 7, name: "Oreo", calories: 437, fat: 18.0},
         ];
         const { classes } = this.props;
 
@@ -80,7 +80,7 @@ class Layout extends React.Component {
               </Drawer>
               <main className={classes.content}>
                 <div className={classes.toolbar} />
-                <DataTable rows={rows} />
+                {this.state.selected && <DataTable rows={rows} />}
               </main>
             </div>
         );

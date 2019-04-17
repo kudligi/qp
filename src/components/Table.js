@@ -1,6 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableFooter from '@material-ui/core/TableFooter';
@@ -122,6 +123,13 @@ class DataTable extends React.Component {
             <Paper className={classes.root}>
               <div className={classes.tableWrapper}>
                 <Table className={classes.table}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Name</TableCell>
+                      <TableCell align="right">Calories</TableCell>
+                      <TableCell align="right">Fat</TableCell>
+                    </TableRow>
+                  </TableHead>
                   <TableBody>
                     {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
                         <TableRow key={row.id}>
