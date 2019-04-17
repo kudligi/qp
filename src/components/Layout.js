@@ -6,11 +6,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import DropDown from './Dropdown';
 
-const drawerWidth = 240;
+const drawerWidth = 360;
 
 const styles = theme => ({
   root: {
@@ -34,6 +32,19 @@ const styles = theme => ({
 });
 
 class Layout extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selected: "",
+        };
+
+        this.handleSelect = this.handleSelect.bind(this);
+    }
+
+    handleSelect(select) {
+        this.setState(state => ({selected: select}));
+    }
+
     render() {
         const { classes } = this.props;
 
@@ -51,15 +62,12 @@ class Layout extends React.Component {
                 <div className={classes.toolbar} />
                 <List>
                   {this.props.deps.map((text, index) => (
-                      <ListItem button key={text}>
-                        <ListItemText primary={text} />
-                      </ListItem>
+                      <DropDown head={text} list={this.props.subs} key={index} handleSelect={this.handleSelect}></DropDown>
                   ))}
                 </List>
               </Drawer>
               <main className={classes.content}>
                 <div className={classes.toolbar} />
-                <DropDown list={["Item1","Item2"]}></DropDown>
               </main>
             </div>
         );
