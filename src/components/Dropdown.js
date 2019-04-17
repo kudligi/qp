@@ -10,7 +10,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 const styles = theme => ({
     root: {
         width: '100%',
-        maxWidth: 360,
+        maxWidth: '100%',
         backgroundColor: theme.palette.background.paper,
     },
     nested: {

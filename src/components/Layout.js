@@ -8,7 +8,7 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import DropDown from './Dropdown';
 
-const drawerWidth = 360;
+const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
