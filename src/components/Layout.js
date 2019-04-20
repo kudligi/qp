@@ -33,58 +33,108 @@ const styles = theme => ({
 });
 
 class Layout extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            table: "",
-            selected: false,
-        };
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [{
+        firstName: "Anirudh",
+        lastName: "C",
+        username: "anirudh-c",
+        email: "anirudh.c@iiitb.org"
+      }],
+      header: [
+        {
+          name: "First name",
+          prop: "firstName"
+        },
+        {
+          name: "Last name",
+          prop: "lastName"
+        },
+        {
+          name: "Username",
+          prop: "username"
+        },
+        {
+          name: "Email",
+          prop: "email"
+        }
+      ],
+      table: "",
+      selected: false,
+      editIdx: -1
+    };
 
-        this.handleSelect = this.handleSelect.bind(this);
-    }
+    this.handleRemove = this.handleRemove.bind(this);
+    this.startEditing = this.startEditing.bind(this);
+    this.stopEditing = this.stopEditing.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+  }
 
-    handleSelect(select) {
-        this.setState(state => ({table: select, selected: true}));
-    }
+  handleRemove(i) {
+    this.setState(state => ({
+      data: state.data.filter((row, j) => j !== i)
+    }));
+  }
 
-    render() {
-        let rows = [
-            {id: 0, name: "Cupcake", calories: 305, fat: 3.7},
-            {id: 1, name: "Donut", calories: 452, fat: 25.0},
-            {id: 2, name: "Eclair", calories: 262, fat: 16.0},
-            {id: 3, name: "Frozen yoghurt", calories: 159, fat: 6.0},
-            {id: 4, name: "Gingerbread", calories: 356, fat: 16.0},
-            {id: 5, name: "Honeycombe", calories: 408, fat: 3.2},
-            {id: 6, name: "KitKat", calories: 518, fat: 26.0},
-            {id: 7, name: "Oreo", calories: 437, fat: 18.0},
-        ];
-        const { classes } = this.props;
+  startEditing(i) {
+    this.setState({ editIdx: i });
+  }
 
-        return (
-            <div className={classes.root}>
-              <CssBaseline />
-              <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar>
-                  <Typography variant="h6" color="inherit" noWrap>
-                    {this.props.title}
-                  </Typography>
-                </Toolbar>
-              </AppBar>
-              <Drawer className={classes.drawer} variant="permanent" classes={{ paper: classes.drawerPaper, }}>
-                <div className={classes.toolbar} />
-                <List>
-                  {this.props.deps.map((text, index) => (
-                      <DropDown head={text} list={this.props.subs} key={index} handleSelect={this.handleSelect}></DropDown>
-                  ))}
-                </List>
-              </Drawer>
-              <main className={classes.content}>
-                <div className={classes.toolbar} />
-                {this.state.selected && <DataTable rows={rows} />}
-              </main>
-            </div>
-        );
-    }
+  stopEditing() {
+    this.setState({ editIdx: -1 });
+  }
+
+  handleChange(e, name, i) {
+    const { value } = e.target;
+    this.setState(state => ({
+      data: state.data.map(
+        (row, j) => (j === i ? { ...row, [name]: value } : row)
+      )
+    }));
+  }
+
+  handleSelect(select) {
+    this.setState(state => ({table: select, selected: true}));
+  }
+
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar>
+            <Typography variant="h6" color="inherit" noWrap>
+              {this.props.title}
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer className={classes.drawer} variant="permanent" classes={{ paper: classes.drawerPaper, }}>
+          <div className={classes.toolbar} />
+          <List>
+            {this.props.courses.map((course, index) => (
+                <DropDown course={course} key={index} handleSelect={this.handleSelect}></DropDown>
+            ))}
+          </List>
+        </Drawer>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <DataTable
+            handleRemove={this.handleRemove}
+            startEditing={this.startEditing}
+            editIdx={this.state.editIdx}
+            stopEditing={this.stopEditing}
+            handleChange={this.handleChange}
+            data={this.state.data}
+            header={this.state.header}
+          />
+        </main>
+      </div>
+    );
+  }
 }
 
 export default withStyles(styles)(Layout);

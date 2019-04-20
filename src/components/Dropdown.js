@@ -11,21 +11,30 @@ const styles = theme => ({
     root: {
         width: '100%',
         maxWidth: '100%',
+        paddingLeft: theme.spacing.unit,
         backgroundColor: theme.palette.background.paper,
     },
-    nested: {
+    depNested: {
+        paddingLeft: theme.spacing.unit * 2,
+    },
+    paperNested: {
         paddingLeft: theme.spacing.unit * 3,
     },
 });
 
 class DropDown extends React.Component {
     state = {
-        open: false,
+        courseOpen: false,
+        depOpen: false,
         selected: "",
     };
 
-    handleClick = () => {
-        this.setState(state => ({ open: !state.open }));
+    handleCourseClick = () => {
+        this.setState(state => ({ courseOpen: !state.courseOpen }));
+    };
+
+    handleDepClick = () => {
+        this.setState(state => ({ depOpen: !state.depOpen }));
     };
 
     render() {
@@ -33,16 +42,28 @@ class DropDown extends React.Component {
 
         return (
             <List component="nav" className={classes.root}>
-              <ListItem button onClick={this.handleClick}>
-                <ListItemText disableTypography inset primary={this.props.head} />
-                {this.state.open ? <ExpandLess /> : <ExpandMore />}
+              <ListItem button onClick={this.handleCourseClick}>
+                <ListItemText disableTypography inset primary={this.props.course.name} />
+                 {this.state.courseOpen ? <ExpandLess /> : <ExpandMore />}
               </ListItem>
-              <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  {this.props.list.map((el, index) => (
-                      <ListItem button className={classes.nested} key={index} onClick={() => this.props.handleSelect(this.props.head + " " + el)}>
-                        <ListItemText inset primary={el}/>
-                      </ListItem>
+              <Collapse in={this.state.courseOpen} timeout="auto" unmountOnExit>
+                <List component="div">
+                  {this.props.course.deps.map((dep, index) => (
+                      <List component="div" key={index}>
+                        <ListItem button className={classes.depNested} onClick={this.handleDepClick}>
+                          <ListItemText disableTypography inset primary={dep.name} />
+                          {this.state.depOpen ? <ExpandLess /> : <ExpandMore />}
+                        </ListItem>
+                        <Collapse in={this.state.depOpen} timeout="auto" unmountOnExit>
+                          <List component="div">
+                            {dep.papers.map((paper, index) => (
+                                <ListItem button key={index} className={classes.paperNested} onClick={() => this.props.handleSelect(this.props.course.name+dep.name+paper)}>
+                                  <ListItemText inset primary={paper}/>
+                                </ListItem>
+                            ))}
+                          </List>
+                        </Collapse>
+                      </List>
                   ))}
                 </List>
               </Collapse>
