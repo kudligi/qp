@@ -41,9 +41,9 @@ class DropDown extends React.Component {
         const { classes } = this.props;
 
         return (
-            <List component="nav" className={classes.root}>
+            <List component="div" className={classes.root}>
               <ListItem button onClick={this.handleCourseClick}>
-                <ListItemText disableTypography inset primary={this.props.course.name} />
+                <ListItemText primary={this.props.course.name} />
                  {this.state.courseOpen ? <ExpandLess /> : <ExpandMore />}
               </ListItem>
               <Collapse in={this.state.courseOpen} timeout="auto" unmountOnExit>
@@ -51,7 +51,7 @@ class DropDown extends React.Component {
                   {this.props.course.deps.map((dep, index) => (
                       <List component="div" key={index}>
                         <ListItem button className={classes.depNested} onClick={this.handleDepClick}>
-                          <ListItemText disableTypography inset primary={dep.name} />
+                          <ListItemText primary={dep.name} className={classes.depNested}/>
                           {this.state.depOpen ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
                         <Collapse in={this.state.depOpen} timeout="auto" unmountOnExit>

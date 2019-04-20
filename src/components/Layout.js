@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import DropDown from './Dropdown';
 import DataTable from './Table';
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 const styles = theme => ({
   root: {
