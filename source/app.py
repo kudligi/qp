@@ -66,7 +66,17 @@ def get_dlist(course):
 def get_plist(course,department):
     return jsonify(get_papers_list(course,department))
 
-
+@app.route("/metadata/all_papers", methods = ['GET'])
+@crossdomain(origin='*')
+def get_all_papers():
+    data = []
+    courses = get_course_list()
+    for course in courses:
+        temp = {}
+        temp["name"] = course
+        temp["deps"] = get_departments_dict(course)
+        data.append(temp)
+    return jsonify(data)
 
 @app.route("/breakup/<path:uri>", methods = ['POST'])
 @crossdomain(origin='*')
