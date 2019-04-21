@@ -24,8 +24,19 @@ def get_papers_list(course, department):
     papar_list = os.listdir('./data/' + course + '/' + department)
     return papar_list
 
-
-#print(get_course_list())
+def get_departments_dict(course):
+    data = []
+    courses = get_course_list()
+    if course not in courses:
+        return "Invalid course input"
+    departments = os.listdir('./data/' + course)
+    for dep in departments:
+        temp = {}
+        temp["name"] = dep
+        temp["papers"] = get_papers_list(course,dep)
+        data.append(temp)
+    return data
+# print(get_course_list())
 #print(get_departments_list('apple'))
-#print(get_departments_list('UG'))
+# print(get_departments_list('UG'))
 print(get_papers_list('UG','community_medicine_1'))

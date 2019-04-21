@@ -4,10 +4,12 @@ from get_csv import *
 import os
 import commands
 from metadata import *
+from cors import crossdomain
 
 app = Flask(__name__)
 
 @app.route("/breakup/<path:uri>", methods = ['GET'])
+@crossdomain(origin='*')
 def fetch_breakup(uri):
     location = uri.split('/')
     df, response_code = get_breakup(location[0], location[1], location[2])
@@ -16,6 +18,7 @@ def fetch_breakup(uri):
     return df_to_json(df), 201
     
 @app.route("/legend/<path:uri>", methods = ['GET'])
+@crossdomain(origin='*')
 def fetch_legend(uri):
     location = uri.split('/')
     df, response_code = get_legend(location[0], location[1], location[2])
@@ -24,6 +27,7 @@ def fetch_legend(uri):
     return df_to_json(df), 201
     
 @app.route("/paperConfig/<path:uri>", methods = ['GET'])
+@crossdomain(origin='*')
 def fetch_paperConfig(uri):
     location = uri.split('/')
     df, response_code = get_paperConfig(location[0], location[1], location[2])
@@ -33,6 +37,7 @@ def fetch_paperConfig(uri):
     
 
 @app.route("/qBank/<path:uri>", methods = ['GET'])
+@crossdomain(origin='*')
 def fetch_qBank(uri):
     location = uri.split('/')
     df, response_code = get_qBank(location[0], location[1], location[2])
@@ -43,24 +48,38 @@ def fetch_qBank(uri):
 
 
 @app.route("/metadata/course_list", methods = ['GET'])
+@crossdomain(origin='*')
 def get_clist():
     return jsonify(get_course_list())
 
 
 
 @app.route("/metadata/departments_list/<string:course>", methods = ['GET'])
+@crossdomain(origin='*')
 def get_dlist(course):
     return jsonify(get_departments_list(course))
 
 
 
 @app.route("/metadata/papers_list/<string:course>/<string:department>", methods = ['GET'])
+@crossdomain(origin='*')
 def get_plist(course,department):
     return jsonify(get_papers_list(course,department))
 
-
+@app.route("/metadata/all_papers", methods = ['GET'])
+@crossdomain(origin='*')
+def get_all_papers():
+    data = []
+    courses = get_course_list()
+    for course in courses:
+        temp = {}
+        temp["name"] = course
+        temp["deps"] = get_departments_dict(course)
+        data.append(temp)
+    return jsonify(data)
 
 @app.route("/breakup/<path:uri>", methods = ['POST'])
+@crossdomain(origin='*')
 def set_breakup(uri):
     path = './data/' + uri + '/breakup.csv'
     j = request.json
@@ -69,6 +88,7 @@ def set_breakup(uri):
     return json.dumps(j), 201
 
 @app.route("/legend/<path:uri>", methods = ['POST'])
+@crossdomain(origin='*')
 def set_legend(uri):
     path = './data/' + uri + '/legend.csv'
     j = request.json
@@ -77,6 +97,7 @@ def set_legend(uri):
     return json.dumps(j), 201
 
 @app.route("/paperConfig/<path:uri>", methods = ['POST'])
+@crossdomain(origin='*')
 def set_paperConfig(uri):
     path = './data/' + uri + '/paperConfig.csv'
     j = request.json
@@ -85,6 +106,7 @@ def set_paperConfig(uri):
     return json.dumps(j), 201
 
 @app.route("/qBank/<path:uri>", methods = ['POST'])
+@crossdomain(origin='*')
 def set_qBank(uri):
     path = './data/' + uri + '/qBank.csv'
     j = request.json
