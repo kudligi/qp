@@ -1,6 +1,10 @@
 import random
 import pandas as pd
 from collections import OrderedDict
+import numpy as np
+from docx import Document
+from docx.shared import Inches,Pt,RGBColor
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 def flip(p):
     return (random.random() < p)
@@ -322,3 +326,192 @@ def populateBluePrint(bp, qb):
             print("no question satisfying constraints\n\n\n")
     bp.to_csv('QPaper.csv')
     return bp
+
+def setPaper_no_options(df, paperConfig, name):
+    document = Document()
+
+    q_code = document.add_heading('Question Paper Code:' + str(paperConfig['Question Paper Code']),level = 6)
+    q_code.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+
+
+    heading = document.add_heading(level = 3)
+    title = heading.add_run('SRI DEVRAJ URS ACADEMY OF HIGHER EDUCATION & RESEARCH')
+    title.underline = True
+    title.font.color.rgb = RGBColor(0,0,0)
+    temp = heading.add_run('''\n(A DEEMED TO BE UNIVERSITY)''')
+    temp.italic = True
+    temp.font.color.rgb = RGBColor(0x00,0x00,0x00)
+    exam = heading.add_run('''\n'''+ str(paperConfig['exam name']))
+    exam.font.color.rgb = RGBColor(0,0,0)
+    heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+    rules = document.add_paragraph()
+    time = rules.add_run('Time:' + str(paperConfig['Max duration']) + '\t\t\t\t\t\t\t\t\tMax Marks:' + paperConfig['Max marks'])
+    #time = rules.add_run('Time: 3 hours')
+    time.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    time.bold = True
+    time.font.size = Pt(7)
+    
+    subject = document.add_heading(level = 3)
+    sub = subject.add_run(paperConfig['subject'])
+    sub.font.color.rgb = RGBColor(0,0,0)
+    subject.alignment = WD_ALIGN_PARAGRAPH.CENTER
+   
+    important_notes = document.add_paragraph()
+    
+    temp = paperConfig['ins'].split('.')
+    res = '\n'
+    for sent in temp:
+        res = res + sent + '\n'
+
+    i = important_notes.add_run(res)
+
+    i.italic = True
+    i.font.size = Pt(8)
+    important_notes.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+
+    cat1  = document.add_heading(level = 4)
+    topic = cat1.add_run('\nLONG ESSAY')
+    topic.font.color.rgb = RGBColor(0,0,0)
+    topic.font.size = Pt(10.5)
+    topic.underline = True
+    topic = cat1.add_run('\t\t\t\t\t\t2 X 10 = 20 Marks')
+    topic.font.color.rgb = RGBColor(0,0,0)
+    topic.font.size = Pt(10.5)
+    result = df[df['category'] == 'le']
+    for a,b in result.iterrows():
+        p = document.add_paragraph(style = 'ListNumber') 
+        q = p.add_run(b['question'])
+        q.font.size = Pt(8)
+    
+    cat2  = document.add_heading(level = 4)
+    topic = cat2.add_run('\nSHORT ESSAY')
+    topic.font.color.rgb = RGBColor(0,0,0)
+    topic.font.size = Pt(10.5)
+    topic.underline = True
+    topic = cat2.add_run('\t\t\t\t\t\t10 X 5 = 50 Marks')
+    topic.font.color.rgb = RGBColor(0,0,0)
+    topic.font.size = Pt(10.5)
+    result = df[df['category'] == 'se']
+    for a,b in result.iterrows():
+        p = document.add_paragraph(style = 'ListNumber') 
+        q = p.add_run(b['question'])
+        q.font.size = Pt(8)
+
+    cat3  = document.add_heading(level = 4)
+    topic = cat3.add_run('\nSHORT ANSWERS')
+    topic.font.color.rgb = RGBColor(0,0,0)
+    topic.font.size = Pt(10.5)
+    topic.underline = True
+    topic = cat3.add_run('\t\t\t\t\t\t10 X 3 = 30 Marks')
+    topic.font.color.rgb = RGBColor(0,0,0)
+    topic.font.size = Pt(10.5)
+    result = df[df['category'] == 'sa']
+    for a,b in result.iterrows():
+        p = document.add_paragraph(style = 'ListNumber') 
+        q = p.add_run(b['question'])
+        q.font.size = Pt(8)
+        
+    document.save('first_paper.docx')
+    return True
+
+
+def setPaper_with_options(df, paperConfig, name):
+    document = Document()
+
+    q_code = document.add_heading('Question Paper Code:' + str(paperConfig['Question Paper Code']),level = 6)
+    q_code.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+
+
+    heading = document.add_heading(level = 3)
+    title = heading.add_run('SRI DEVRAJ URS ACADEMY OF HIGHER EDUCATION & RESEARCH')
+    title.underline = True
+    title.font.color.rgb = RGBColor(0,0,0)
+    temp = heading.add_run('''\n(A DEEMED TO BE UNIVERSITY)''')
+    temp.italic = True
+    temp.font.color.rgb = RGBColor(0x00,0x00,0x00)
+    exam = heading.add_run('''\n'''+ str(paperConfig['exam name']))
+    exam.font.color.rgb = RGBColor(0,0,0)
+    heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+    rules = document.add_paragraph()
+    time = rules.add_run('Time:' + str(paperConfig['Max duration']) + '\t\t\t\t\t\t\t\t\tMax Marks:' + paperConfig['Max marks'])
+    #time = rules.add_run('Time: 3 hours')
+    time.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    time.bold = True
+    time.font.size = Pt(7)
+    
+    subject = document.add_heading(level = 3)
+    sub = subject.add_run(paperConfig['subject'])
+    sub.font.color.rgb = RGBColor(0,0,0)
+    subject.alignment = WD_ALIGN_PARAGRAPH.CENTER
+   
+    important_notes = document.add_paragraph()
+    temp = paperConfig['ins'].split('.')
+    res = '\n'
+    for sent in temp:
+        res = res + sent + '\n'
+
+    i = important_notes.add_run(res)
+
+    
+
+    i.italic = True
+    i.font.size = Pt(8)
+    important_notes.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+
+    cat1  = document.add_heading(level = 4)
+    topic = cat1.add_run('\nLONG ESSAY ( Answer any 2 )')
+    topic.font.color.rgb = RGBColor(0,0,0)
+    topic.font.size = Pt(10.5)
+    topic.underline = True
+    topic = cat1.add_run('\t\t\t\t2 X 10 = 20 Marks')
+    topic.font.color.rgb = RGBColor(0,0,0)
+    topic.font.size = Pt(10.5)
+    result = df[df['category'] == 'le']
+    for a,b in result.iterrows():
+        p = document.add_paragraph(style = 'ListNumber') 
+        q = p.add_run(b['question'])
+        q.font.size = Pt(8)
+    '''
+    document.add_paragraph(
+        'first item in ordered list', style='ListNumber'
+    )
+
+    document.add_paragraph(
+        'second item in ordered list', style='ListNumber'
+    )
+    '''
+
+    cat2  = document.add_heading(level = 4)
+    topic = cat2.add_run('\nSHORT ESSAY ( Answer any 10 )')
+    topic.font.color.rgb = RGBColor(0,0,0)
+    topic.font.size = Pt(10.5)
+    topic.underline = True
+    topic = cat2.add_run('\t\t\t10 X 5 = 50 Marks')
+    topic.font.color.rgb = RGBColor(0,0,0)
+    topic.font.size = Pt(10.5)
+    result = df[df['category'] == 'se']
+    for a,b in result.iterrows():
+        p = document.add_paragraph(style = 'ListNumber') 
+        q = p.add_run(b['question'])
+        q.font.size = Pt(8)
+
+    cat3  = document.add_heading(level = 4)
+    topic = cat3.add_run('\nSHORT ANSWERS ( No choices )')
+    topic.font.color.rgb = RGBColor(0,0,0)
+    topic.font.size = Pt(10.5)
+    topic.underline = True
+    topic = cat3.add_run('\t\t\t10 X 3 = 30 Marks')
+    topic.font.color.rgb = RGBColor(0,0,0)
+    topic.font.size = Pt(10.5)
+    result = df[df['category'] == 'sa']
+    for a,b in result.iterrows():
+        p = document.add_paragraph(style = 'ListNumber') 
+        q = p.add_run(b['question'])
+        q.font.size = Pt(8)
+        
+    document.save('optionsPaper.docx')
+    return True

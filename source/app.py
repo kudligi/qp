@@ -142,5 +142,5 @@ def show4():
 '''
 
 if __name__ == '__main__':
-    print(os.system('ls ../'))
+    #print(os.system('ls ../'))
     app.run(debug=True, port = 5000)

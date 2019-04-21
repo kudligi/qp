@@ -1,5 +1,6 @@
 from get_csv import *
 from util import *
+import numpy as np
 
 def gen_paper(course, department, paper):
     
@@ -15,8 +16,7 @@ def gen_paper(course, department, paper):
 
     
     
-    breakup_df = get_breakup(course, department, paper)
-    
+    breakup_df = pd.read_csv('../data' + '/' + course + '/' + department + '/' + paper + '/breakup.csv', encoding='cp1252' )
 
     #TOPIC BREAKUP IN FRACTIONS
     topicBreakup = {}
@@ -29,8 +29,8 @@ def gen_paper(course, department, paper):
     qBucketsWithoptions = fillBucketsWithOptions(topicBreakup, qContrib, qCandidates, topicBreakup, topicBreakup_cache)
     qBuckets =  fillBuckets(topicBreakup, qContrib, qCandidates, topicBreakup, topicBreakup_cache)
 
-    legend_df = get_legend(course, department, paper)
-    qBank_df = get_qBank(course, department, paper)
+    legend_df = pd.read_csv('../data' + '/' + course + '/' + department + '/' + paper + '/legend.csv', encoding='cp1252' )
+    qBank_df = pd.read_csv('../data' + '/' + course + '/' + department + '/' + paper + '/qBank.csv', encoding='cp1252' )
 
     blueprint_df = qBuckets
     blueprint_dfWithOptions = qBucketsWithoptions
@@ -59,6 +59,19 @@ def gen_paper(course, department, paper):
     blueprint_df['question'] = np.where(True,"no question matching constrains",1)
     blueprint_df['sub_topic'] = np.where(True,"no question matching constrains",1)  
 
-    return qBucketsWithoptions
 
+    df = populateBluePrint(blueprint_df, qdb_df)
+
+    blueprint_dfWithOptions['question'] = np.where(True,"no question matching constrains",1)
+    blueprint_dfWithOptions['sub_topic'] = np.where(True,"no question matching constrains",1)
+    
+    dfWithOptions = populateBluePrint(blueprint_dfWithOptions, qdb_df)
+
+    paperConfi = pd.read_csv('../data' + '/' + course + '/' + department + '/' + paper + '/paperConfig.csv', encoding='cp1252' )
+    paperConfig = {}
+    for k, v in paperConfi.iterrows():
+        paperConfig[v['key']] = v['value']
+    dfWithOptions = populateBluePrint(blueprint_dfWithOptions, qdb_df)
+    setPaper_no_options(df, paperConfig, "apple")
+    return "oh my god"
 print(gen_paper('UG', 'forensic_medicine' , '113'))
