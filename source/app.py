@@ -7,6 +7,7 @@ import requests
 
 app = Flask(__name__)
 
+global logCount
 logCount = 0
 
 def callPostLog(messageData, callName):
@@ -14,6 +15,7 @@ def callPostLog(messageData, callName):
     #print(r.status_code, r.reason, r.text)
 
 def log(tag, method, aiText, mess):
+    global logCount
     logCount += 1
     messageData = {"index":{"index":"qp", "_id": logCount}, "level": "info", "message":""}
     messageData2 = {"type": "api_call", "call_name": tag, "method" : method, "text_entry": aiText, "sender_id" : 'admin', "level": "info", "message": mess}
