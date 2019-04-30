@@ -6,6 +6,7 @@ RUN apt-get install -y python  && \
     apt-get install -y python-pip  && \
     pip install Flask  && \
     pip install pandas  && \
+    pip install requests && \
     apt-get install -y curl  
 
 WORKDIR /app
