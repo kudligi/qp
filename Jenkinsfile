@@ -12,5 +12,10 @@ pipeline {
                 sh 'docker push kudligi/qp'
             }
         }
+        stage('Deploy') {
+            steps {
+                build 'rundeckjob'
+            }
+        }
     }
 }
