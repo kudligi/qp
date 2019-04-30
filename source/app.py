@@ -4,23 +4,26 @@ from get_csv import *
 import os
 from metadata import *
 import requests
+from elasticsearch import Elasticsearch 
 
 app = Flask(__name__)
-
+'''
 global logCount
 logCount = 0
+es = Elasticsearch([{'host': 'localhost', 'port' : 9200 }])
 
-def callPostLog(messageData, callName):
-    r = requests.post(url='http://localost:3000/' + callName, data=messageData)
-    #print(r.status_code, r.reason, r.text)
-
-def log(tag, method, aiText, mess):
+@app.route("/log", methods = ['GET'])
+def log(tag, method, status, mess):
     global logCount
     logCount += 1
-    messageData = {"index":{"index":"qp", "_id": logCount}, "level": "info", "message":""}
-    messageData2 = {"type": "api_call", "call_name": tag, "method" : method, "text_entry": aiText, "sender_id" : 'admin', "level": "info", "message": mess}
-    callPostLog(messageData, 'log')
-    callPostLog(messageData2, 'logging')
+    message = {'endpoint' : tag, 'method' : method, 'status' : status, 'uri' : mess}
+    es.index(index='lol', doc_type='troll', id = logCount, body=message)
+    
+'''
+
+def log(tag, method, status, mess):
+    requests.get('https://fb510ec1.ngrok.io/log/'+str(tag.replace('/','_'))+'/' +str(method).replace('/','_')+'/'+str(status).replace('/','_')+'/'+str(mess).replace('/','_'))
+    
 
 @app.route("/breakup/<path:uri>", methods = ['GET'])
 def fetch_breakup(uri):
@@ -67,7 +70,7 @@ def fetch_qBank(uri):
 
 @app.route("/metadata/course_list", methods = ['GET'])
 def get_clist():
-    log('metadata/course_list', 'GET', '201', "")
+    log('metadata/course_list', 'GET', '201', "xxx")
     return jsonify(get_course_list())
 
 

@@ -7,6 +7,7 @@ RUN apt-get install -y python  && \
     pip install Flask  && \
     pip install pandas  && \
     pip install requests && \
+    pip install elasticsearch && \
     apt-get install -y curl  
 
 WORKDIR /app

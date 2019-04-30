@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({
         extended: true
 }));
 
-var id = 1
+var id = 0
 
 //create the directory if it does not exist
 
@@ -45,7 +45,7 @@ const logger = new (winston.Logger)({
 
 app.post('/log', function(req, res){
     id = id + 1;
-    logger.info({"index":{"index":"flashbot", "_id":id}, "level":'info', 'message':"", "timemstamp":time});
+    logger.info({"index":{"index":"qp", "_id":id}, "level":'info', 'message':"", "timemstamp":time});
   });
 
 app.post('/logging', function(req, res){
@@ -53,7 +53,6 @@ app.post('/logging', function(req, res){
   var method = req.body.method;
   var aiText = req.body.text_entry;
   var sender = req.body.sender_id;
-  id = id + 1;
   logger.info({"type":'api-call', "call_name":tag, "method":method, "text_entry":aiText, "sender_id":sender });
 });
 

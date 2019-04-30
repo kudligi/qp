@@ -1,0 +1,2 @@
+{"index": {"index": "qp", "_id": 1}, "message": "", "level": "info"}
+{"level": "info", "sender_id": "admin", "text_entry": "201", "call_name": "metadata/departments_list", "message": "UG", "type": "api_call", "method": "GET"}

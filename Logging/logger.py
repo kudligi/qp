@@ -17,11 +17,19 @@ class EnableCors(object):
                 return fn(*args, **kwargs)
         return _enable_cors
 
+@post('/log')
+def logger1():
+    body = request.json
+    print(body)
+    f = open('results.json','a+')
+    f.write(str(body) + "\n")
+    f.close()
+
 @post('/logging')
 def logger():
     body = request.json
     print(body)
-    f = open('results.log','a+')
+    f = open('results.json','a+')
     f.write(str(body) + "\n")
     f.close()
 
