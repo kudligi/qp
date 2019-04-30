@@ -4,7 +4,7 @@ pipeline {
         stage('Build Docker Image') { 
             steps {
                 sh 'ls'
-                sh 'docker build . -t kudligi/qp' 
+                sh 'docker build . -t kudligi/qp'
             }
         }
         stage('Push to Docker Hub') { 
@@ -15,6 +15,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 build 'rundeckjob'
+            }
+        }
+        stage('Test'){
+            steps{
+                sh 'python source/testing.py'
             }
         }
     }
