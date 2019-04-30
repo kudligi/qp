@@ -10,7 +10,7 @@ app = Flask(__name__)
 logCount = 0
 
 def callPostLog(messageData, callName):
-    r = requests.post(url='' + callName, data=messageData)
+    r = requests.post(url='http://localost:3000/' + callName, data=messageData)
     #print(r.status_code, r.reason, r.text)
 
 def log(tag, method, aiText, mess):
