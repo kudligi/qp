@@ -22,7 +22,7 @@ def log(tag, method, status, mess):
 '''
 
 def log(tag, method, status, mess):
-    requests.get('https://fb510ec1.ngrok.io/log/'+str(tag.replace('/','_'))+'/' +str(method).replace('/','_')+'/'+str(status).replace('/','_')+'/'+str(mess).replace('/','_'))
+    requests.get('https://80cbe497.ngrok.io/log/'+str(tag.replace('/','_'))+'/' +str(method).replace('/','_')+'/'+str(status).replace('/','_')+'/'+str(mess).replace('/','_'))
     
 
 @app.route("/breakup/<path:uri>", methods = ['GET'])
